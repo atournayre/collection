@@ -74,4 +74,30 @@ class Collection implements \ArrayAccess, \Countable
     {
         return new Map($this->collection);
     }
+
+    public static function fromArrayCollectionToMap(string $classOrType, ArrayCollection $collection): Map
+    {
+        $firstKey = current($collection->getKeys());
+
+        if (is_string($firstKey)) {
+            return self::createAsMap($classOrType, $collection->toArray())
+                ->toMap();
+        }
+
+        return self::createAsList($classOrType, $collection->toArray())
+            ->toMap();
+    }
+
+    public static function fromMapToArrayCollection(string $classOrType, Map $collection): ArrayCollection
+    {
+        $firstKey = $collection->firstKey();
+
+        if (is_string($firstKey)) {
+            return self::createAsMap($classOrType, $collection->toArray())
+                ->toArrayCollection();
+        }
+
+        return self::createAsList($classOrType, $collection->toArray())
+            ->toArrayCollection();
+    }
 }

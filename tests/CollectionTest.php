@@ -91,4 +91,40 @@ class CollectionTest extends TestCase
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
     }
+
+    public function testFromArrayCollectionToMapUsingList(): void
+    {
+        $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a', 'b']);
+        $map = Collection::fromArrayCollectionToMap('string', $arrayCollection);
+        static::assertInstanceOf(Map::class, $map);
+        static::assertEquals('a', $map->first());
+        static::assertEquals(0, $map->firstKey());
+    }
+
+    public function testFromArrayCollectionToMapUsingMap(): void
+    {
+        $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a' => 'a', 'b' => 'b']);
+        $map = Collection::fromArrayCollectionToMap('string', $arrayCollection);
+        static::assertInstanceOf(Map::class, $map);
+        static::assertEquals('a', $map->first());
+        static::assertEquals('a', $map->firstKey());
+    }
+
+    public function testFromMapToArrayCollectionUsingList(): void
+    {
+        $arrayCollection = new Map(['a', 'b']);
+        $map = Collection::fromMapToArrayCollection('string', $arrayCollection);
+        static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
+        static::assertEquals('a', $map->first());
+        static::assertEquals(0, current($map->getKeys()));
+    }
+
+    public function testFromMapToArrayCollectionUsingMap(): void
+    {
+        $arrayCollection = new Map(['a' => 'a', 'b' => 'b']);
+        $map = Collection::fromMapToArrayCollection('string', $arrayCollection);
+        static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
+        static::assertEquals('a', $map->first());
+        static::assertEquals('a', current($map->getKeys()));
+    }
 }
