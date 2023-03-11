@@ -2,6 +2,7 @@
 
 namespace Collection;
 
+use Aimeos\Map;
 use Atournayre\Collection\Collection;
 use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
@@ -67,5 +68,27 @@ class CollectionTest extends TestCase
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $arrayCollection);
         static::assertIsInt($arrayCollection->key());
         static::assertEquals('a', $arrayCollection->current());
+    }
+
+    /**
+     * @covers \Atournayre\Collection\Collection::toMap
+     * @return void
+     * @throws \Throwable
+     */
+    public function testListIsAMap(): void
+    {
+        $collection = Collection::createAsList('string', ['a']);
+        $map = $collection->toMap();
+        static::assertInstanceOf(Map::class, $map);
+        static::assertIsInt($map->firstKey());
+        static::assertEquals('a', $map->first());
+    }
+
+    public function testListIsAMapAndCanBeConvertedToArrayCollection(): void
+    {
+        $collection = Collection::createAsList('string', ['a', 'b']);
+        $map = $collection->toMap();
+        static::assertInstanceOf(Map::class, $map);
+        static::assertEquals('a', $map->first());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Atournayre\Collection;
 
+use Aimeos\Map;
 use Atournayre\Assert\Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -67,5 +68,10 @@ class Collection implements \ArrayAccess, \Countable
     public function toArrayCollection(): ArrayCollection
     {
         return new ArrayCollection($this->collection);
+    }
+
+    public function toMap(): Map
+    {
+        return new Map($this->collection);
     }
 }
