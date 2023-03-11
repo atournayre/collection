@@ -39,11 +39,11 @@ All contents of this package are licensed under the [MIT license].
 
 [Composer]: https://getcomposer.org
 
-[The Community Contributors]: https://github.com/atournayre/assert/graphs/contributors
+[The Community Contributors]: https://github.com/atournayre/collection/graphs/contributors
 
-[issue tracker]: https://github.com/atournayre/assert/issues
+[issue tracker]: https://github.com/atournayre/collection/issues
 
-[Git repository]: https://github.com/atournayre/assert
+[Git repository]: https://github.com/atournayre/collection
 
 [MIT license]: LICENSE
 
