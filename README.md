@@ -19,10 +19,10 @@ Collections
 
  Method                                                   | Description                                                                 
 ----------------------------------------------------------|-----------------------------------------------------------------------------
- `Collection::createAsList()`                             | Create a list from an array                                                 
- `Collection::createAsMap()`                              | Create a map from an array                                                  
- `CollectionImmutable::createAsList()`                    | Create an immutable list from an array                                      
- `CollectionImmutable::createAsMap()`                     | Create an immutable map from an array                                       
+ `TypedCollection::createAsList()`                        | Create a list from an array                                                 
+ `TypedCollection::createAsMap()`                         | Create a map from an array                                                  
+ `TypedCollectionImmutable::createAsList()`               | Create an immutable list from an array                                      
+ `TypedCollectionImmutable::createAsMap()`                | Create an immutable map from an array                                       
  `DecimalValueCollection::fromArray()`                    | Create a collection of DecimalValue from an array                           
  `DecimalValuePrecisionConsistentCollection::fromArray()` | Create a collection of DecimalValue with precision consistent from an array 
 

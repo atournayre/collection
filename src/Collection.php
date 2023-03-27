@@ -6,6 +6,9 @@ use Aimeos\Map;
 use Atournayre\Assert\Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @deprecated Use TypedCollection instead
+ */
 class Collection implements \ArrayAccess, \Countable
 {
     protected function __construct(

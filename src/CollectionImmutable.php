@@ -4,6 +4,9 @@ namespace Atournayre\Collection;
 
 use RuntimeException;
 
+/**
+ * @deprecated Use TypedCollectionImmutable instead
+ */
 class CollectionImmutable extends Collection implements \ArrayAccess, \Countable
 {
     protected function __construct(
