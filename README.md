@@ -82,19 +82,11 @@ $collection = DecimalValueCollection::fromArray([
     DecimalValue::fromInt(1),
     DecimalValue::fromString('2'),
     DecimalValue::fromFloat(3.01, 2),
-]);
-// Each item has its own precision
-```
-
-### Decimal Collection precision consistent
-```php
-$collection = DecimalValuePrecisionConsistentCollection::fromArray([
-    DecimalValue::create(4.235, 3),
-    DecimalValue::fromInt(1),
-    DecimalValue::fromString('2'),
-    DecimalValue::fromFloat(3.01, 2),
 ], 2);
-// All items have the same precision (2)
+$collection[0]->toFloat(); // 4.24
+$collection[1]->toFloat(); // 1.00
+$collection[2]->toFloat(); // 2.00
+$collection[3]->toFloat(); // 3.01
 ```
 
 
