@@ -95,7 +95,7 @@ class CollectionTest extends TestCase
     public function testFromArrayCollectionToMapUsingList(): void
     {
         $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a', 'b']);
-        $map = Collection::fromArrayCollectionToMap('string', $arrayCollection);
+        $map = Collection::fromArrayCollectionToMap($arrayCollection);
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals(0, $map->firstKey());
@@ -104,7 +104,7 @@ class CollectionTest extends TestCase
     public function testFromArrayCollectionToMapUsingMap(): void
     {
         $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a' => 'a', 'b' => 'b']);
-        $map = Collection::fromArrayCollectionToMap('string', $arrayCollection);
+        $map = Collection::fromArrayCollectionToMap($arrayCollection);
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals('a', $map->firstKey());
@@ -113,7 +113,7 @@ class CollectionTest extends TestCase
     public function testFromMapToArrayCollectionUsingList(): void
     {
         $arrayCollection = new Map(['a', 'b']);
-        $map = Collection::fromMapToArrayCollection('string', $arrayCollection);
+        $map = Collection::fromMapToArrayCollection($arrayCollection);
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals(0, current($map->getKeys()));
@@ -122,7 +122,7 @@ class CollectionTest extends TestCase
     public function testFromMapToArrayCollectionUsingMap(): void
     {
         $arrayCollection = new Map(['a' => 'a', 'b' => 'b']);
-        $map = Collection::fromMapToArrayCollection('string', $arrayCollection);
+        $map = Collection::fromMapToArrayCollection($arrayCollection);
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals('a', current($map->getKeys()));
