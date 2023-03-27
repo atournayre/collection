@@ -5,32 +5,51 @@ namespace Atournayre\Collection;
 use Atournayre\Assert\Assert;
 use Atournayre\Types\DecimalValue;
 
-class DecimalValueCollection
+class DecimalValueCollection extends TypedCollection
 {
-    private array $values;
+    private const DEFAULT_PRECISION = 0;
+
+    protected static string $type = DecimalValue::class;
+
     public readonly int $precision;
 
-    protected function __construct(array $values, int $precision)
+    protected function __construct(
+        private array $collection = [],
+        int $precision = self::DEFAULT_PRECISION
+    )
     {
-        Assert::allIsInstanceOf($values, DecimalValue::class);
+        Assert::allIsInstanceOf($collection, DecimalValue::class);
         Assert::allEq(
-            array_map(fn(DecimalValue $value) => $value->precision, $values),
+            array_map(fn(DecimalValue $value) => $value->precision, $collection),
             $precision
         );
 
-        $this->values = $values;
+        parent::__construct($collection);
         $this->precision = $precision;
     }
 
-    public static function fromArray(array $values, int $precision): self
+    public static function createAsList(array $collection, int $precision = self::DEFAULT_PRECISION): AbstractCollection
     {
-        return new self($values, $precision);
+        Assert::isListOf($collection, static::$type);
+        return new self($collection, $precision);
     }
 
-    public function add(DecimalValue $value): self
+    public static function createAsMap(array $collection, int $precision = self::DEFAULT_PRECISION): AbstractCollection
     {
-        $values = $this->values;
-        $values[] = $value;
+        Assert::isMapOf($collection, static::$type);
+        return new self($collection, $precision);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->offsetSetAssertion($offset, $value);
+        $this->collection[$offset] = DecimalValue::changePrecision($value, $this->precision);
+    }
+
+    public function add($value): self
+    {
+        $values = $this->collection;
+        $values[] = DecimalValue::changePrecision($value, $this->precision);
 
         return new self($values, $value->precision);
     }
@@ -40,13 +59,13 @@ class DecimalValueCollection
      */
     public function values(): array
     {
-        return $this->values;
+        return $this->collection;
     }
 
     public function sum(): DecimalValue
     {
         $sum = 0;
-        foreach ($this->values as $value) {
+        foreach ($this->collection as $value) {
             $sum += $value->value;
         }
 

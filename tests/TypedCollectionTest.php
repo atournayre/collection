@@ -1,69 +1,71 @@
 <?php
 
-namespace Collection;
+namespace Atournayre\Collection\Tests;
 
 use Aimeos\Map;
-use Atournayre\Collection\Collection;
+use Atournayre\Collection\Tests\Utils\People;
+use Atournayre\Collection\Tests\Utils\Person;
+use Atournayre\Collection\TypedCollection;
 use PHPUnit\Framework\TestCase;
 use Webmozart\Assert\InvalidArgumentException;
 
-class CollectionTest extends TestCase
+class TypedCollectionTest extends TestCase
 {
     /**
-     * @covers \Atournayre\Collection\Collection::createAsList
+     * @covers \Atournayre\Collection\TypedCollection::createAsList
      * @return void
      */
     public function testMutableList(): void
     {
-        $collection = Collection::createAsList('string', ['a']);
+        $collection = TypedCollection::createAsList(['a']);
         $collection[] = 'd';
         static::assertCount(2, $collection);
     }
 
     /**
-     * @covers \Atournayre\Collection\Collection::createAsList
+     * @covers \Atournayre\Collection\TypedCollection::createAsList
      * @return void
      */
     public function testMutableMap(): void
     {
-        $collection = Collection::createAsMap('string', ['a' => 'a']);
+        $collection = TypedCollection::createAsMap(['a' => 'a']);
         $collection['b'] = 'b';
         static::assertCount(2, $collection);
     }
 
     /**
-     * @covers \Atournayre\Collection\Collection::createAsList
+     * @covers \Atournayre\Collection\TypedCollection::createAsList
      * @return void
      */
     public function testMutableListOfStringsThrowsExceptionIfOneElementIsNull(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected a string. Got: NULL');
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('Expected a string. Got: NULL');
 
-        $collection = Collection::createAsList('string', ['a']);
+        $collection = TypedCollection::createAsList(['a']);
         $collection[] = null;
     }
 
     /**
-     * @covers \Atournayre\Collection\Collection::createAsMap
+     * @covers \Atournayre\Collection\TypedCollection::createAsMap
      * @return void
      */
     public function testMutableMapOfStringsThrowsExceptionIfOneElementIsNull(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Expected a string. Got: NULL');
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('Expected a string. Got: NULL');
 
-        $collection = Collection::createAsMap('string', ['a' => 'a']);
+        $collection = TypedCollection::createAsMap(['a' => 'a']);
         $collection['b'] = null;
     }
 
     /**
-     * @covers \Atournayre\Collection\Collection::toArrayCollection
+     * @covers \Atournayre\Collection\TypedCollection::toArrayCollection
      * @return void
      */
     public function testListIsAnArrayCollection(): void
     {
-        $collection = Collection::createAsList('string', ['a']);
+        $collection = TypedCollection::createAsList(['a']);
         $arrayCollection = $collection->toArrayCollection();
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $arrayCollection);
         static::assertIsInt($arrayCollection->key());
@@ -71,13 +73,13 @@ class CollectionTest extends TestCase
     }
 
     /**
-     * @covers \Atournayre\Collection\Collection::toMap
+     * @covers \Atournayre\Collection\TypedCollection::toMap
      * @return void
      * @throws \Throwable
      */
     public function testListIsAMap(): void
     {
-        $collection = Collection::createAsList('string', ['a']);
+        $collection = TypedCollection::createAsList(['a']);
         $map = $collection->toMap();
         static::assertInstanceOf(Map::class, $map);
         static::assertIsInt($map->firstKey());
@@ -86,7 +88,7 @@ class CollectionTest extends TestCase
 
     public function testListIsAMapAndCanBeConvertedToArrayCollection(): void
     {
-        $collection = Collection::createAsList('string', ['a', 'b']);
+        $collection = TypedCollection::createAsList(['a', 'b']);
         $map = $collection->toMap();
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
@@ -95,7 +97,7 @@ class CollectionTest extends TestCase
     public function testFromArrayCollectionToMapUsingList(): void
     {
         $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a', 'b']);
-        $map = Collection::fromArrayCollectionToMap($arrayCollection);
+        $map = TypedCollection::fromArrayCollectionToMap($arrayCollection);
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals(0, $map->firstKey());
@@ -104,7 +106,7 @@ class CollectionTest extends TestCase
     public function testFromArrayCollectionToMapUsingMap(): void
     {
         $arrayCollection = new \Doctrine\Common\Collections\ArrayCollection(['a' => 'a', 'b' => 'b']);
-        $map = Collection::fromArrayCollectionToMap($arrayCollection);
+        $map = TypedCollection::fromArrayCollectionToMap($arrayCollection);
         static::assertInstanceOf(Map::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals('a', $map->firstKey());
@@ -113,7 +115,7 @@ class CollectionTest extends TestCase
     public function testFromMapToArrayCollectionUsingList(): void
     {
         $arrayCollection = new Map(['a', 'b']);
-        $map = Collection::fromMapToArrayCollection($arrayCollection);
+        $map = TypedCollection::fromMapToArrayCollection($arrayCollection);
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals(0, current($map->getKeys()));
@@ -122,9 +124,29 @@ class CollectionTest extends TestCase
     public function testFromMapToArrayCollectionUsingMap(): void
     {
         $arrayCollection = new Map(['a' => 'a', 'b' => 'b']);
-        $map = Collection::fromMapToArrayCollection($arrayCollection);
+        $map = TypedCollection::fromMapToArrayCollection($arrayCollection);
         static::assertInstanceOf(\Doctrine\Common\Collections\ArrayCollection::class, $map);
         static::assertEquals('a', $map->first());
         static::assertEquals('a', current($map->getKeys()));
+    }
+    public function testCreateCollectionOfPerson(): void
+    {
+        $taylor = new Person('Taylor');
+        $jeffrey = new Person('Jeffrey');
+
+        $people = People::createAsList([$taylor, $jeffrey]);
+
+        static::assertCount(2, $people);
+    }
+
+    public function testCreateCollectionOfPersonWithAnError(): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+
+        $taylor = new Person('Taylor');
+        $jeffrey = new Person('Jeffrey');
+
+        $people = People::createAsList([$taylor, $jeffrey]);
+        $people[] = new \stdClass();
     }
 }
