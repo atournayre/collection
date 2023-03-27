@@ -15,8 +15,6 @@ composer require atournayre/collection
 Collections
 ----------
 
-### Type Assertions
-
  Method                                                   | Description                                                                 
 ----------------------------------------------------------|-----------------------------------------------------------------------------
  `TypedCollection::createAsList()`                        | Create a list from an array                                                 
@@ -25,6 +23,80 @@ Collections
  `TypedCollectionImmutable::createAsMap()`                | Create an immutable map from an array                                       
  `DecimalValueCollection::fromArray()`                    | Create a collection of DecimalValue from an array                           
  `DecimalValuePrecisionConsistentCollection::fromArray()` | Create a collection of DecimalValue with precision consistent from an array 
+
+Examples
+----------
+
+### Typed Collection
+```php
+// Samples classes
+class Person
+{
+    public function __construct(
+        public string $name
+    ) {}
+}
+
+class People extends TypedCollection
+{
+    protected static string $type = Person::class;
+}
+```
+
+```php
+// Create collection
+$collection = People::createAsList([
+    new Person('John'),
+]);
+$collection[] = new Person('Jack'); // Add item
+```
+
+### Typed Collection Immutable
+```php
+// Samples classes
+class Person
+{
+    public function __construct(
+        public string $name
+    ) {}
+}
+
+class People extends TypedCollectionImmutable
+{
+    protected static string $type = Person::class;
+}
+```
+
+```php
+// Create collection
+$collection = People::createAsList([
+    new Person('John'),
+]);
+$collection[] = new Person('Jack'); // Throws a RuntimeException
+```
+
+### Decimal Collection
+```php
+$collection = DecimalValueCollection::fromArray([
+    DecimalValue::create(4.235, 3),
+    DecimalValue::fromInt(1),
+    DecimalValue::fromString('2'),
+    DecimalValue::fromFloat(3.01, 2),
+]);
+// Each item has its own precision
+```
+
+### Decimal Collection precision consistent
+```php
+$collection = DecimalValuePrecisionConsistentCollection::fromArray([
+    DecimalValue::create(4.235, 3),
+    DecimalValue::fromInt(1),
+    DecimalValue::fromString('2'),
+    DecimalValue::fromFloat(3.01, 2),
+], 2);
+// All items have the same precision (2)
+```
+
 
 Contribute
 ----------
