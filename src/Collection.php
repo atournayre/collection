@@ -75,9 +75,11 @@ class Collection implements \ArrayAccess, \Countable
         return new Map($this->collection);
     }
 
-    public static function fromArrayCollectionToMap(string $classOrType, ArrayCollection $collection): Map
+    public static function fromArrayCollectionToMap(ArrayCollection $collection): Map
     {
         $firstKey = current($collection->getKeys());
+        $first = $collection->first();
+        $classOrType = \is_object($first) ? \get_class($first) : \gettype($first);
 
         if (is_string($firstKey)) {
             return self::createAsMap($classOrType, $collection->toArray())
@@ -88,9 +90,14 @@ class Collection implements \ArrayAccess, \Countable
             ->toMap();
     }
 
-    public static function fromMapToArrayCollection(string $classOrType, Map $collection): ArrayCollection
+    /**
+     * @throws \Throwable
+     */
+    public static function fromMapToArrayCollection(Map $collection): ArrayCollection
     {
         $firstKey = $collection->firstKey();
+        $first = $collection->first();
+        $classOrType = \is_object($first) ? \get_class($first) : \gettype($first);
 
         if (is_string($firstKey)) {
             return self::createAsMap($classOrType, $collection->toArray())
