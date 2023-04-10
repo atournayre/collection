@@ -14,7 +14,7 @@
         "doctrine/collections": "^2.1",
         "atournayre/assert": "^0",
         "aimeos/map": "^3.4",
-        "atournayre/types": "^0.1"
+        "atournayre/types": "^0"
     },
     "conflict": {
         "phpstan/phpstan": "<0.12.20",
