@@ -10,13 +10,13 @@ class TypedCollection extends AbstractCollection
 {
     protected static string $type = 'string';
 
-    public static function createAsList(array $collection): AbstractCollection
+    public static function createAsList(array $collection): static
     {
         Assert::isListOf($collection, static::$type);
         return new static($collection);
     }
 
-    public static function createAsMap(array $collection): AbstractCollection
+    public static function createAsMap(array $collection): static
     {
         Assert::isMapOf($collection, static::$type);
         return new static($collection);
