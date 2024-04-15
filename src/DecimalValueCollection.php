@@ -28,13 +28,13 @@ class DecimalValueCollection extends TypedCollection
         $this->precision = $precision;
     }
 
-    public static function createAsList(array $collection, int $precision = self::DEFAULT_PRECISION): AbstractCollection
+    public static function createAsList(array $collection, int $precision = self::DEFAULT_PRECISION): static
     {
         Assert::isListOf($collection, static::$type);
         return new self($collection, $precision);
     }
 
-    public static function createAsMap(array $collection, int $precision = self::DEFAULT_PRECISION): AbstractCollection
+    public static function createAsMap(array $collection, int $precision = self::DEFAULT_PRECISION): static
     {
         Assert::isMapOf($collection, static::$type);
         return new self($collection, $precision);
