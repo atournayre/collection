@@ -84,4 +84,29 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
     {
         return new Map($this->collection);
     }
+
+    public function atLeastOneElement(): bool
+    {
+        return $this->count() > 0;
+    }
+
+    public function hasSeveralElements(): bool
+    {
+        return $this->count() > 1;
+    }
+
+    public function hasOneElement(): bool
+    {
+        return $this->hasXElements(1);
+    }
+
+    public function hasNoElement(): bool
+    {
+        return $this->hasXElements(0);
+    }
+
+    public function hasXElements(int $x): bool
+    {
+        return $this->count() === $x;
+    }
 }
