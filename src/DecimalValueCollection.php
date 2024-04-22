@@ -64,11 +64,53 @@ class DecimalValueCollection extends TypedCollection
 
     public function sum(): DecimalValue
     {
-        $sum = 0;
-        foreach ($this->collection as $value) {
-            $sum += $value->value;
+        if ($this->hasNoElement()) {
+            return DecimalValue::create(0, $this->precision);
         }
 
-        return DecimalValue::fromInt($sum, $this->precision);
+        $sum = $this->toMap()
+            ->map(fn (DecimalValue $value) => $value->value)
+            ->sum();
+
+        return DecimalValue::create($sum, $this->precision);
+    }
+
+    public function avg(): DecimalValue
+    {
+        if ($this->hasNoElement()) {
+            return DecimalValue::create(0, $this->precision);
+        }
+
+        $avg = $this->toMap()
+            ->map(fn (DecimalValue $value) => $value->value)
+            ->avg();
+
+        return DecimalValue::create($avg, $this->precision);
+    }
+
+    public function min(): DecimalValue
+    {
+        if ($this->hasNoElement()) {
+            return DecimalValue::create(0, $this->precision);
+        }
+
+        $min = $this->toMap()
+            ->map(fn (DecimalValue $value) => $value->value)
+            ->min();
+
+        return DecimalValue::create($min, $this->precision);
+    }
+
+    public function max(): DecimalValue
+    {
+        if ($this->hasNoElement()) {
+            return DecimalValue::create(0, $this->precision);
+        }
+
+        $max = $this->toMap()
+            ->map(fn (DecimalValue $value) => $value->value)
+            ->max();
+
+        return DecimalValue::create($max, $this->precision);
     }
 }
