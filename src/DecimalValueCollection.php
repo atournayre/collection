@@ -7,7 +7,7 @@ use Atournayre\Types\DecimalValue;
 
 class DecimalValueCollection extends TypedCollection
 {
-    private const DEFAULT_PRECISION = 0;
+    protected const DEFAULT_PRECISION = 0;
 
     protected static string $type = DecimalValue::class;
 
