@@ -149,4 +149,22 @@ class TypedCollectionTest extends TestCase
         $people = People::createAsList([$taylor, $jeffrey]);
         $people[] = new \stdClass();
     }
+
+    public function testCreateCollectionOfPersonWithAValidationError(): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+
+        $taylor = new Person('Taylor');
+        $jeffrey = new Person('PersonWithASuperLongNameThatExceedsTheMaximumLengthAllowedByTheCollection');
+
+        People::createAsList([$taylor, $jeffrey]);
+    }
+
+    public function testCreateCollectionOfPersonWithoutValidationError(): void
+    {
+        $taylor = new Person('Taylor');
+
+        $collection = People::createAsList([$taylor]);
+        self::assertTrue($collection->hasOneElement());
+    }
 }

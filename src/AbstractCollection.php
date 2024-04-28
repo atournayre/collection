@@ -11,6 +11,9 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
     protected function __construct(
         private array $collection = []
     ) {
+        foreach ($this->collection as $value) {
+            $this->validateElement($value);
+        }
     }
 
     abstract public static function createAsList(array $collection): AbstractCollection;
@@ -108,5 +111,10 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
     public function hasXElements(int $x): bool
     {
         return $this->count() === $x;
+    }
+
+    protected function validateElement(mixed $value): void
+    {
+        // Override this method in child class to add validation
     }
 }
