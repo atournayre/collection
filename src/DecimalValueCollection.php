@@ -14,7 +14,7 @@ class DecimalValueCollection extends TypedCollection
     public readonly int $precision;
 
     protected function __construct(
-        private array $collection = [],
+        protected array $collection = [],
         int $precision = self::DEFAULT_PRECISION
     )
     {
