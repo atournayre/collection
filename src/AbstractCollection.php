@@ -9,11 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class AbstractCollection implements \ArrayAccess, \Countable
 {
     protected function __construct(
-        private array $collection = []
+        protected array $collection = []
     ) {
         foreach ($this->collection as $value) {
             $this->validateElement($value);
         }
+        $this->validate();
     }
 
     abstract public static function createAsList(array $collection): AbstractCollection;
@@ -114,6 +115,11 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
     }
 
     protected function validateElement(mixed $value): void
+    {
+        // Override this method in child class to add validation
+    }
+
+    protected function validate(): void
     {
         // Override this method in child class to add validation
     }

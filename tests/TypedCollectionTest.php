@@ -4,6 +4,7 @@ namespace Atournayre\Collection\Tests;
 
 use Aimeos\Map;
 use Atournayre\Collection\Tests\Utils\People;
+use Atournayre\Collection\Tests\Utils\PeopleMustBeMap;
 use Atournayre\Collection\Tests\Utils\Person;
 use Atournayre\Collection\TypedCollection;
 use PHPUnit\Framework\TestCase;
@@ -166,5 +167,20 @@ class TypedCollectionTest extends TestCase
 
         $collection = People::createAsList([$taylor]);
         self::assertTrue($collection->hasOneElement());
+    }
+
+    public function testForceCreateCollectionAsMap(): void
+    {
+        static::expectException(\InvalidArgumentException::class);
+
+        $taylor = new Person('Taylor');
+        PeopleMustBeMap::createAsList([$taylor]);
+    }
+
+    public function testCreateCollectionAsMapVerifyValidation(): void
+    {
+        $taylor = new Person('Taylor');
+        $people = PeopleMustBeMap::createAsMap(['taylor' => $taylor]);
+        self::assertCount(1, $people);
     }
 }
