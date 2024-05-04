@@ -63,4 +63,22 @@ class DateTimeCollectionTest extends TestCase
 
         self::assertEquals(new \DateTime('2021-01-01'), $datetime);
     }
+
+    public function testDatesBetween(): void
+    {
+        $collection = DateTimeCollection::createAsList([
+            new \DateTime('2021-01-01'),
+            new \DateTime('2021-01-02'),
+            new \DateTime('2021-01-03'),
+            new \DateTime('2021-01-04'),
+            new \DateTime('2021-01-05'),
+        ]);
+
+        $dates = $collection->between(new \DateTime('2021-01-02'), new \DateTime('2021-01-04'));
+
+        self::assertSame(3, count($dates));
+        self::assertEquals(new \DateTime('2021-01-02'), $dates[0]);
+        self::assertEquals(new \DateTime('2021-01-03'), $dates[1]);
+        self::assertEquals(new \DateTime('2021-01-04'), $dates[2]);
+    }
 }

@@ -39,4 +39,16 @@ class DateTimeCollection extends TypedCollection
     {
         return $this->sortAsc()->first();
     }
+
+    public function between(\DateTimeInterface $start, \DateTimeInterface $end): static
+    {
+        $clone = clone $this;
+        $map = $clone
+            ->toMap()
+            ->filter(fn (\DateTimeInterface $date) => $date >= $start && $date <= $end)
+            ->values()
+        ;
+
+        return static::fromMapAsList($map);
+    }
 }
