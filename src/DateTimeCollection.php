@@ -29,4 +29,14 @@ class DateTimeCollection extends TypedCollection
 
         return static::createAsList($values);
     }
+
+    public function mostRecent(): \DateTimeInterface
+    {
+        return $this->sortDesc()->first();
+    }
+
+    public function oldest(): \DateTimeInterface
+    {
+        return $this->sortAsc()->first();
+    }
 }

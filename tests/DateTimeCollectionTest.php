@@ -37,4 +37,30 @@ class DateTimeCollectionTest extends TestCase
         self::assertEquals(new \DateTime('2021-01-05'), $collection->first());
         self::assertEquals(new \DateTime('2021-01-01'), $collection->last());
     }
+
+    public function testMostRecent(): void
+    {
+        $datetime = DateTimeCollection::createAsList([
+            new \DateTime('2021-01-01'),
+            new \DateTime('2021-01-02'),
+            new \DateTime('2021-01-03'),
+            new \DateTime('2021-01-04'),
+            new \DateTime('2021-01-05'),
+        ])->mostRecent();
+
+        self::assertEquals(new \DateTime('2021-01-05'), $datetime);
+    }
+
+    public function testOldest(): void
+    {
+        $datetime = DateTimeCollection::createAsList([
+            new \DateTime('2021-01-01'),
+            new \DateTime('2021-01-02'),
+            new \DateTime('2021-01-03'),
+            new \DateTime('2021-01-04'),
+            new \DateTime('2021-01-05'),
+        ])->oldest();
+
+        self::assertEquals(new \DateTime('2021-01-01'), $datetime);
+    }
 }
