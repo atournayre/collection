@@ -51,4 +51,28 @@ class DateTimeCollection extends TypedCollection
 
         return static::fromMapAsList($map);
     }
+
+    public function before(\DateTimeInterface $date): static
+    {
+        $clone = clone $this;
+        $map = $clone
+            ->toMap()
+            ->filter(fn (\DateTimeInterface $d) => $d < $date)
+            ->values()
+        ;
+
+        return static::fromMapAsList($map);
+    }
+
+    public function after(\DateTimeInterface $date): static
+    {
+        $clone = clone $this;
+        $map = $clone
+            ->toMap()
+            ->filter(fn (\DateTimeInterface $d) => $d > $date)
+            ->values()
+        ;
+
+        return static::fromMapAsList($map);
+    }
 }
