@@ -47,4 +47,34 @@ class TypedCollection extends AbstractCollection
         return self::createAsList($collection->toArray())
             ->toArrayCollection();
     }
+
+    public static function fromMapAsMap(Map $map): static
+    {
+        return self::createAsMap($map->toArray());
+    }
+
+    public function isMap(): bool
+    {
+        return is_string($this->firstKey());
+    }
+
+    public function firstKey(): int|string
+    {
+        return current($this->getKeys());
+    }
+
+    public function getKeys(): array
+    {
+        return array_keys($this->collection);
+    }
+
+    public function isList(): bool
+    {
+        return is_int($this->firstKey());
+    }
+
+    public static function fromMapAsList(Map $map): static
+    {
+        return self::createAsList($map->toArray());
+    }
 }

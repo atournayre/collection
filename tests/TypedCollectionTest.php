@@ -183,4 +183,50 @@ class TypedCollectionTest extends TestCase
         $people = PeopleMustBeMap::createAsMap(['taylor' => $taylor]);
         self::assertCount(1, $people);
     }
+
+    public function testFirstElement(): void
+    {
+        $taylor = new Person('Taylor');
+        $jeffrey = new Person('Jeffrey');
+
+        $people = People::createAsList([$taylor, $jeffrey]);
+
+        self::assertEquals($taylor, $people->first());
+    }
+
+    public function testLastElement(): void
+    {
+        $taylor = new Person('Taylor');
+        $jeffrey = new Person('Jeffrey');
+
+        $people = People::createAsList([$taylor, $jeffrey]);
+
+        self::assertEquals($jeffrey, $people->last());
+    }
+
+    public function testCreateMapFromMap(): void
+    {
+        $map = Map::from([
+            'taylor' => new Person('Taylor'),
+            'jeffrey' => new Person('Jeffrey'),
+        ]);
+
+        $people = People::fromMapAsMap($map);
+
+        self::assertCount(2, $people);
+        self::assertTrue($people->isMap());
+    }
+
+    public function testCreateListFromMap(): void
+    {
+        $people = Map::from([
+            new Person('Taylor'),
+            new Person('Jeffrey'),
+        ]);
+
+        $list = People::fromMapAsList($people);
+
+        self::assertCount(2, $list);
+        self::assertTrue($list->isList());
+    }
 }
