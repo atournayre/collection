@@ -123,4 +123,14 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
     {
         // Override this method in child class to add validation
     }
+
+    public function first()
+    {
+        return reset($this->collection);
+    }
+
+    public function last()
+    {
+        return end($this->collection);
+    }
 }
