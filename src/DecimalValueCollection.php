@@ -5,6 +5,10 @@ namespace Atournayre\Collection;
 use Atournayre\Assert\Assert;
 use Atournayre\Types\DecimalValue;
 
+/**
+ * @template T
+ * @extends AbstractCollection<T>
+ */
 class DecimalValueCollection extends TypedCollection
 {
     protected const DEFAULT_PRECISION = 0;
