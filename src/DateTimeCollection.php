@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Atournayre\Collection;
 
+/**
+ * @template T
+ * @extends AbstractCollection<T>
+ */
 class DateTimeCollection extends TypedCollection
 {
     protected static string $type = \DateTimeInterface::class;

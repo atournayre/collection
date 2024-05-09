@@ -2,6 +2,10 @@
 
 namespace Atournayre\Collection;
 
+/**
+ * @template T
+ * @extends AbstractCollection<T>
+ */
 class TypedCollectionImmutable extends TypedCollection
 {
     public function offsetSet(mixed $offset, mixed $value): void
