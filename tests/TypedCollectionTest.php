@@ -229,4 +229,12 @@ class TypedCollectionTest extends TestCase
         self::assertCount(2, $list);
         self::assertTrue($list->isList());
     }
+
+    public function testAddToEmptyCollection(): void
+    {
+        $people = People::createAsList([]);
+        $people[] = (new Person('Taylor'));
+
+        self::assertCount(1, $people);
+    }
 }
