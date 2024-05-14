@@ -36,6 +36,10 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
 
     protected function offsetSetAssertion(mixed $offset, mixed $value): void
     {
+        if ($this->hasNoElement()) {
+            return;
+        }
+
         if (is_string($offset)) {
             Assert::isMap($this->collection, 'Adding element to collection (list) using string key is not supported.');
         }
@@ -43,7 +47,7 @@ abstract class AbstractCollection implements \ArrayAccess, \Countable
             Assert::isList($this->collection, 'Adding element to collection (map) using integer key is not supported.');
         }
 
-        $firstElement = reset($this->collection);
+        $firstElement = $this->first();
 
         if (\is_object($firstElement)) {
             Assert::isInstanceOf($value, \get_class($firstElement));
